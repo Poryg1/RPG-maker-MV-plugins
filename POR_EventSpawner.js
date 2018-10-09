@@ -18,6 +18,29 @@
  * Note that you cannot spawn new events during other times than on map load. The
  * reason for that is, GALV's plugin already does the job, so it wouldn't make sense
  * to try to do that.
+ * 
+ * 
+ * Plugin commands:
+ * savemap
+ * saves the current map. This will also save all modifications made with
+ * the extra event pages plugin.
+ * 
+ * Notetags:
+ * <savemap>
+ * saves the current map. This happens BEFORE any event page appending by 
+ * extraEventPages plugin happens.
+ * 
+ * <POR_spawnEvents: eventId, x, y>
+ * multiple instances are separated by a semicolon ;
+ * 
+ * <savemap>
+ * <POR_spawnEvents:
+ * 1,3,3;
+ * 1;
+ * 5>
+ * will summon: event 1 on coords 3,3
+ * another event 1 on its native coordinates
+ * and event 5 on its native coordinates
  * */
 
 var imported = imported || {};
