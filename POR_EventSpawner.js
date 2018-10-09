@@ -80,7 +80,7 @@ function saveable () {
     saveMap();
 }
 function saveMap () {
-    
+    var mapId = $gameMap._mapId || $gamePlayer.newMapId();
     if (Utils.isNwjs ()) {
         var fs = require("fs");
         var saveMap = JSON.stringify($dataMap);
@@ -90,7 +90,7 @@ function saveMap () {
         saveMap = saveMap.replace ('ents":[null,', 'ents":[' + '\n' + "null,");
         saveMap = saveMap.replace (/{"id"/g, '\n{"id"');
         saveMap = saveMap.replace ('"meta":{}}]}', '"meta":{}}' + "\n" + ']' + "\n" + '}');
-        fs.writeFileSync("data/Map" + $gameMap._mapId.padZero(3) + ".json", saveMap);
+        fs.writeFileSync("data/Map" + mapId.padZero(3) + ".json", saveMap);
         alert ("Map saved (hopefully). It is recommended to close the program and reload the project in your MV editor to prevent event duplicates. \nAlso, don't forget to delete the command when you don't need it anymore.");
     }
     else {

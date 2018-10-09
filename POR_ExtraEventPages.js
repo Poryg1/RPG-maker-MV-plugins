@@ -90,26 +90,8 @@ Scene_Map.prototype.addExtraEventPages = function () {
         extraPages[i] = extraPages[i].split(",");
         for (var j = extraPages[i][2] - 1 || 0; j < (extraPages[i][3] || $dummyMap.events[extraPages[i][1]].pages.length); j++) {
             this.addExtraEventPage(extraPages[i][0], extraPages[i][1], j);
-            //$dataMap.events[extraPages[i][0]].pages.push ($dummyMap.events[extraPages[i][1]].pages[j]);
         } 
     }
-    /*var events = $dataMap.events;
-    for (var i = 1; i < events.length; i++) {
-        if (!events[i].meta.event) continue;
-        events[i].meta.event = events[i].meta.event.replace (/ /g, "");
-        events[i].meta.event = events[i].meta.event.split(";");
-        for (var j in events[i].meta.event) {
-            events[i].meta.event[j] = events[i].meta.event[j].split(",");
-            for (var k = events[i].meta.event[j][1] - 1 || 0; k < (events[i].meta.event[j][2] || $dummyMap.events[events[i].meta.event[j][0]].pages.length); k++) {
-                events[i].pages.push ($dummyMap.events[events[i].meta.event[j][0]].pages[k]);
-                console.log (k);
-            }
-            /*for (var k = events[i].meta.event[j][1] - 1 || 0; k < (events[i].meta.event[j][2] || 20); k++) {
-                events[i].pages.push ($dummyMap.events[events[i].meta.event[j][0]].pages[k]);
-                console.log (events[i].meta.event[j][2]);
-            }
-        }
-    }*/
 }
 
 Scene_Map.prototype.addExtraEventPage = function (event1Id, event2Id, page) {
