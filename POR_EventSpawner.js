@@ -30,8 +30,8 @@
  * saves the current map. This happens BEFORE any event page appending by 
  * extraEventPages plugin happens.
  * 
- * <POR_spawnEvents: eventId, x, y>
- * multiple instances are separated by a semicolon ;
+ * <POR_spawnEvents: [eventId], [x], [y]>
+ * multiple instances are separated by an "n" ;
  * 
  * <savemap>
  * <POR_spawnEvents:
@@ -74,8 +74,10 @@ Scene_Map.prototype.spawnNewEvents = function () {
     var newEvents = $dataMap.meta.POR_spawnEvents;
     newEvents = newEvents.replace(/\n/g, "");
     newEvents = newEvents.replace (/ /g, "");
-    newEvents = newEvents.split(";");
-    while ($dataMap.events[$dataMap.events.length - 1] == null) $dataMap.events.pop();
+    newEvents = newEvents.split("n");
+    if (!newEvents[newEvents.length - 1].length) newEvents.pop();
+    while ($dataMap.events[$dataMap.events.length - 1] === null) $dataMap.events.pop();
+    if (!$dataMap.events.length) $dataMap.events.push(null);
     for (var i in newEvents) {
         newEvents[i] = newEvents[i].split(",");
         this.spawnNewEvent(newEvents[i][0], newEvents[i][1], newEvents[i][2]);
@@ -84,8 +86,8 @@ Scene_Map.prototype.spawnNewEvents = function () {
 
 Scene_Map.prototype.spawnNewEvent = function (eventId, x, y) {
     var event = JSON.parse(JSON.stringify($dummyMap.events[eventId]));
-    event.x = Number(x) || Number(event.x);
-    event.y = Number(y) || Number(event.y);
+    if (x == 0 || Number(x)) event.x = Number(x);
+    if (y == 0 || Number(y)) event.y = Number(y);
     event.name = event.name.replace (eventId.padZero(3), "");
     event.name = event.name + $dataMap.events.length.padZero(3);
     $dataMap.events.push(event);
@@ -93,7 +95,7 @@ Scene_Map.prototype.spawnNewEvent = function (eventId, x, y) {
 
 
 function saveable () {
-    for (var i in $dataMap.events) {
+    for (var i = 1; i < $dataMap.events.length; i++) {
         if ($dataMap.events[i].pages.length > 20) {
             if (confirm ("You're trying to save a map when an event has more than 20 event pages. Opening this event in the MV editor would crash the program. \nProceed regardless?")) {
             continue;

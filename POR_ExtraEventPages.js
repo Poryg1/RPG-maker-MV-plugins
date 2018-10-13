@@ -11,12 +11,12 @@
  * dummy to store your events.
  * 
  * map notetags:
- * <POR_extraPages: event1, event2, begin, end>
+ * <POR_extraPages: [event1], [event2], [begin], [end]>
  * event1 - event ID of the event on current map
  * event2 - event ID of the dummy map event
  * begin - first page that you want to copy (optional)
  * end - last page that you want to copy (optional)
- * Multiple instances are separated by a comma:
+ * Multiple instances are separated by an "n".
  * 
  * <POR_extraPages:
  * 1,3,4,5;
@@ -31,7 +31,7 @@
  * 
  * 
  * plugin commands:
- * extrapage event1 event2 page
+ * extrapage [event1] [event2] [page]
  * event1 - event ID of the event on current map
  * event2 - event ID of the dummy map event
  * page - the page number you want to copy. 
@@ -85,7 +85,8 @@ Scene_Map.prototype.addExtraEventPages = function () {
     var extraPages = $dataMap.meta.POR_extraPages;
     extraPages = extraPages.replace(/\n/g, "");
     extraPages = extraPages.replace (/ /g, "");
-    extraPages = extraPages.split(";");
+    extraPages = extraPages.split("n");
+    if (!extraPages[extraPages.length - 1].length) extraPages.pop(); //patch of foolproofness
     for (var i in extraPages) {
         extraPages[i] = extraPages[i].split(",");
         for (var j = extraPages[i][2] - 1 || 0; j < (extraPages[i][3] || $dummyMap.events[extraPages[i][1]].pages.length); j++) {
