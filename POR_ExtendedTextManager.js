@@ -15,7 +15,14 @@
  * 
  * */
 
-var POR_GS_i = Game_System.prototype.initialize;
+
+TextManager.param = function(paramId) {
+    if ($gameSystem.terms.params[paramId]) return $gameSystem.terms.params[paramId];
+    return $dataSystem.terms.params[paramId] || '';
+};
+
+
+ var POR_GS_i = Game_System.prototype.initialize;
 Game_System.prototype.initialize = function() {
     POR_GS_i.call (this);
     this.terms = {};
