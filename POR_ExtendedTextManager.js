@@ -13,6 +13,114 @@
  * deleteterm name
  * Deletes your custom term and if there's a default one, restores it.
  * 
+ * 
+ * List of default parameters you can change (they are case sensitive
+ * and symbol sensitive):
+ * 
+ * ======Basic======
+ * level
+ * levelA
+ * hp
+ * hpA
+ * mp
+ * mpA
+ * tp
+ * tpA
+ * exp
+ * expA
+ * 
+ * 
+ * ======Commands======
+ * fight
+ * escape
+ * attack
+ * guard
+ * item
+ * skill
+ * equip
+ * status
+ * formation
+ * options
+ * save
+ * gameEnd
+ * weapon
+ * armor
+ * keyItem
+ * equip
+ * optimize
+ * clear
+ * buy
+ * sell
+ * newGame
+ * continue_
+ * toTitle
+ * cancel
+ * 
+ * 
+ * ======message======
+ * actionFailure
+ * actorDamage
+ * actorDrain
+ * actorGain
+ * actorLoss
+ * actorNoDamage
+ * actorNoHit
+ * actorRecovery
+ * alwaysDash
+ * bgmVolume
+ * bgsVolume
+ * buffAdd
+ * buffRemove
+ * commandRemember
+ * counterAttack
+ * criticalToActor
+ * criticalToEnemy
+ * debuffAdd
+ * defeat
+ * emerge
+ * enemyDamage
+ * enemyDrain
+ * enemyGain
+ * enemyLoss
+ * enemyNoDamage
+ * enemyNoHit
+ * enemyRecovery
+ * escapeFailure
+ * escapeStart
+ * evasion
+ * expNext
+ * expTotal
+ * file
+ * levelUp
+ * loadMessage
+ * magicEvasion
+ * magicReflection
+ * meVolume
+ * obtainExp
+ * obtainGold
+ * obtainItem
+ * obtainSkill
+ * partyName
+ * possession
+ * preemptive
+ * saveMessage
+ * seVolume
+ * substitute
+ * surprise
+ * useItem
+ * victory
+ * 
+ * 
+ * ======Parameters======
+ * You need to access them using their param ID:
+ * 0 - Max hp
+ * 1 - Max mp
+ * 2 - attack
+ * 3 - defence
+ * 4 - Magical attack
+ * 5 - Magical defence
+ * 6 - Agility
+ * 7 - Luck
  * */
 
 
