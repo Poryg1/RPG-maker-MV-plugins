@@ -17,7 +17,7 @@
 
 
 TextManager.param = function(paramId) {
-    if ($gameSystem.terms.params[paramId]) return $gameSystem.terms.params[paramId];
+    if ($gameSystem.terms[paramId]) return $gameSystem.terms[paramId];
     return $dataSystem.terms.params[paramId] || '';
 };
 
