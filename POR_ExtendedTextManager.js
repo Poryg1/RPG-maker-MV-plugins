@@ -1,10 +1,21 @@
 /*:
  * @plugindesc Change terms as freely as you want
  * @author Poryg
+ * 
+ * @param customParams
+ * @text Custom parameters
+ * @desc Set your custom permanent parameters for the text manager.
+ * @type []
+ * 
  *
  * @help  Plugin for editing or creating terms of the game. Whether
  * you just want some name edit for HP or MP, or you want to have
  * variable menu command names... Everything is possible now!
+ * 
+ * Create new permanent parameters:
+ * Format:
+ * property: value
+ * 
  * 
  * Plugin commands:
  * changeterm name value
@@ -19,9 +30,9 @@
  * 
  * ======Basic======
  * level
- * levelA
+ * levelA (A means abbreviation)
  * hp
- * hpA (A means abbreviation used for example in the main menu)
+ * hpA
  * mp
  * mpA
  * tp
@@ -112,7 +123,8 @@
  * 
  * 
  * ======Parameters======
- * You need to access them using their param ID:
+ * You need to access them using their param ID. They DO NOT have a default
+ * value in TextManager!:
  * 0 - Max hp
  * 1 - Max mp
  * 2 - attack
@@ -121,31 +133,24 @@
  * 5 - Magical defence
  * 6 - Agility
  * 7 - Luck
+ * 
+ * 
+ * ======Custom======
+ * That's for your custom parameters.
  * */
 
 
-TextManager.param = function(paramId) {
-    if ($gameSystem.terms[paramId]) return $gameSystem.terms[paramId];
-    return $dataSystem.terms.params[paramId] || '';
-};
-
-
- var POR_GS_i = Game_System.prototype.initialize;
-Game_System.prototype.initialize = function() {
-    POR_GS_i.call (this);
-    this.terms = {};
-};
-
-var POR_GI_pC = Game_Interpreter.prototype.pluginCommand;
-Game_Interpreter.prototype.pluginCommand = function(command, args) {
-POR_GI_pC.call(this, command, args);
-if (command === 'changeterm') $gameSystem.redefineProperty (args[0], args[1]);
-if (command === "deleteterm") $gameSystem.redefineProperty (args[0]);
+var PORParameters = PORParameters || {};
+PORParameters.extendedTextManager = {};
+PORParameters.extendedTextManager.customParams = {};
+var arr = JSON.parse (PluginManager.parameters("POR_extendedTextManager").customParams);
+for (var i in arr) {
+    var prop = arr[i].split (":");
+    if (prop[1][0] == " ") prop[1] = prop[1].substring(1);
+    PORParameters.extendedTextManager.customParams[prop[0]] = prop[1];
 }
 
-var POR_SL_oLS = Scene_Load.prototype.onLoadSuccess;
-Scene_Load.prototype.onLoadSuccess = function() {
-    POR_SL_oLS.call (this);
+function POR_defineProps () {
     Object.defineProperties(TextManager, {
         level           : TextManager.getter('basic', 0),
         levelA          : TextManager.getter('basic', 1),
@@ -233,6 +238,37 @@ Scene_Load.prototype.onLoadSuccess = function() {
         buffRemove      : TextManager.getter('message', 'buffRemove'),
         actionFailure   : TextManager.getter('message', 'actionFailure'),
     });
+    for (var i in PORParameters.extendedTextManager.customParams) {
+        Object.defineProperty (TextManager, i, TextManager.getter ("custom", PORParameters.extendedTextManager.customParams[i]));
+    }
+}
+
+TextManager.param = function(paramId) {
+    if ($gameSystem.terms[paramId]) return $gameSystem.terms[paramId];
+    return $dataSystem.terms.params[paramId] || '';
+};
+
+TextManager.custom = function (param) {
+    return param;
+}
+
+ var POR_GS_i = Game_System.prototype.initialize;
+Game_System.prototype.initialize = function() {
+    POR_GS_i.call (this);
+    this.terms = {};
+};
+
+var POR_GI_pC = Game_Interpreter.prototype.pluginCommand;
+Game_Interpreter.prototype.pluginCommand = function(command, args) {
+POR_GI_pC.call(this, command, args);
+if (command === 'changeterm') $gameSystem.redefineProperty (args[0], args[1]);
+if (command === "deleteterm") $gameSystem.redefineProperty (args[0]);
+}
+
+var POR_SL_oLS = Scene_Load.prototype.onLoadSuccess;
+Scene_Load.prototype.onLoadSuccess = function() {
+    POR_SL_oLS.call (this);
+    POR_defineProps ();
     $gameSystem.redefineProperties ();
 };
 
@@ -586,7 +622,10 @@ Game_System.prototype.redefineProperty = function (property, value = null) {
                 type = "command";
                 value = "victory";
                 break;
-
+        }
+        if (PORParameters.extendedTextManager.customParams[property]) {
+            type = "custom";
+            value = PORParameters.extendedTextManager.customParams[property];
         }
         if (type) Object.defineProperty (TextManager, property, TextManager.getter (type, value));
         else delete TextManager[property];
@@ -604,91 +643,5 @@ Game_System.prototype.redefineTextProperties = function () {
 POR_ST_cNG = Scene_Title.prototype.commandNewGame;
 Scene_Title.prototype.commandNewGame = function() {
     POR_ST_cNG.call (this);
-    Object.defineProperties(TextManager, {
-        level           : TextManager.getter('basic', 0),
-        levelA          : TextManager.getter('basic', 1),
-        hp              : TextManager.getter('basic', 2),
-        hpA             : TextManager.getter('basic', 3),
-        mp              : TextManager.getter('basic', 4),
-        mpA             : TextManager.getter('basic', 5),
-        tp              : TextManager.getter('basic', 6),
-        tpA             : TextManager.getter('basic', 7),
-        exp             : TextManager.getter('basic', 8),
-        expA            : TextManager.getter('basic', 9),
-        fight           : TextManager.getter('command', 0),
-        escape          : TextManager.getter('command', 1),
-        attack          : TextManager.getter('command', 2),
-        guard           : TextManager.getter('command', 3),
-        item            : TextManager.getter('command', 4),
-        skill           : TextManager.getter('command', 5),
-        equip           : TextManager.getter('command', 6),
-        status          : TextManager.getter('command', 7),
-        formation       : TextManager.getter('command', 8),
-        save            : TextManager.getter('command', 9),
-        gameEnd         : TextManager.getter('command', 10),
-        options         : TextManager.getter('command', 11),
-        weapon          : TextManager.getter('command', 12),
-        armor           : TextManager.getter('command', 13),
-        keyItem         : TextManager.getter('command', 14),
-        equip2          : TextManager.getter('command', 15),
-        optimize        : TextManager.getter('command', 16),
-        clear           : TextManager.getter('command', 17),
-        newGame         : TextManager.getter('command', 18),
-        continue_       : TextManager.getter('command', 19),
-        toTitle         : TextManager.getter('command', 21),
-        cancel          : TextManager.getter('command', 22),
-        buy             : TextManager.getter('command', 24),
-        sell            : TextManager.getter('command', 25),
-        alwaysDash      : TextManager.getter('message', 'alwaysDash'),
-        commandRemember : TextManager.getter('message', 'commandRemember'),
-        bgmVolume       : TextManager.getter('message', 'bgmVolume'),
-        bgsVolume       : TextManager.getter('message', 'bgsVolume'),
-        meVolume        : TextManager.getter('message', 'meVolume'),
-        seVolume        : TextManager.getter('message', 'seVolume'),
-        possession      : TextManager.getter('message', 'possession'),
-        expTotal        : TextManager.getter('message', 'expTotal'),
-        expNext         : TextManager.getter('message', 'expNext'),
-        saveMessage     : TextManager.getter('message', 'saveMessage'),
-        loadMessage     : TextManager.getter('message', 'loadMessage'),
-        file            : TextManager.getter('message', 'file'),
-        partyName       : TextManager.getter('message', 'partyName'),
-        emerge          : TextManager.getter('message', 'emerge'),
-        preemptive      : TextManager.getter('message', 'preemptive'),
-        surprise        : TextManager.getter('message', 'surprise'),
-        escapeStart     : TextManager.getter('message', 'escapeStart'),
-        escapeFailure   : TextManager.getter('message', 'escapeFailure'),
-        victory         : TextManager.getter('message', 'victory'),
-        defeat          : TextManager.getter('message', 'defeat'),
-        obtainExp       : TextManager.getter('message', 'obtainExp'),
-        obtainGold      : TextManager.getter('message', 'obtainGold'),
-        obtainItem      : TextManager.getter('message', 'obtainItem'),
-        levelUp         : TextManager.getter('message', 'levelUp'),
-        obtainSkill     : TextManager.getter('message', 'obtainSkill'),
-        useItem         : TextManager.getter('message', 'useItem'),
-        criticalToEnemy : TextManager.getter('message', 'criticalToEnemy'),
-        criticalToActor : TextManager.getter('message', 'criticalToActor'),
-        actorDamage     : TextManager.getter('message', 'actorDamage'),
-        actorRecovery   : TextManager.getter('message', 'actorRecovery'),
-        actorGain       : TextManager.getter('message', 'actorGain'),
-        actorLoss       : TextManager.getter('message', 'actorLoss'),
-        actorDrain      : TextManager.getter('message', 'actorDrain'),
-        actorNoDamage   : TextManager.getter('message', 'actorNoDamage'),
-        actorNoHit      : TextManager.getter('message', 'actorNoHit'),
-        enemyDamage     : TextManager.getter('message', 'enemyDamage'),
-        enemyRecovery   : TextManager.getter('message', 'enemyRecovery'),
-        enemyGain       : TextManager.getter('message', 'enemyGain'),
-        enemyLoss       : TextManager.getter('message', 'enemyLoss'),
-        enemyDrain      : TextManager.getter('message', 'enemyDrain'),
-        enemyNoDamage   : TextManager.getter('message', 'enemyNoDamage'),
-        enemyNoHit      : TextManager.getter('message', 'enemyNoHit'),
-        evasion         : TextManager.getter('message', 'evasion'),
-        magicEvasion    : TextManager.getter('message', 'magicEvasion'),
-        magicReflection : TextManager.getter('message', 'magicReflection'),
-        counterAttack   : TextManager.getter('message', 'counterAttack'),
-        substitute      : TextManager.getter('message', 'substitute'),
-        buffAdd         : TextManager.getter('message', 'buffAdd'),
-        debuffAdd       : TextManager.getter('message', 'debuffAdd'),
-        buffRemove      : TextManager.getter('message', 'buffRemove'),
-        actionFailure   : TextManager.getter('message', 'actionFailure'),
-    });
+    POR_defineProps();
 };
