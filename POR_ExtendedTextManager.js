@@ -21,7 +21,7 @@
  * level
  * levelA
  * hp
- * hpA
+ * hpA (A means abbreviation used for example in the main menu)
  * mp
  * mpA
  * tp
