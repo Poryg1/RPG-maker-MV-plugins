@@ -140,15 +140,19 @@
  * */
 
 
+
 var PORParameters = PORParameters || {};
 PORParameters.extendedTextManager = {};
 PORParameters.extendedTextManager.customParams = {};
-var arr = JSON.parse (PluginManager.parameters("POR_extendedTextManager").customParams);
-for (var i in arr) {
-    var prop = arr[i].split (":");
-    if (prop[1][0] == " ") prop[1] = prop[1].substring(1);
-    PORParameters.extendedTextManager.customParams[prop[0]] = prop[1];
+if (PluginManager.parameters("POR_extendedTextManager").customParams.length) {
+    var arr = JSON.parse (PluginManager.parameters("POR_extendedTextManager").customParams);
+    for (var i in arr) {
+        var prop = arr[i].split (":");
+        if (prop[1][0] == " ") prop[1] = prop[1].substring(1);
+        PORParameters.extendedTextManager.customParams[prop[0]] = prop[1];
+    }
 }
+
 
 function POR_defineProps () {
     Object.defineProperties(TextManager, {
