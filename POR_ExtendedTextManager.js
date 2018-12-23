@@ -276,7 +276,6 @@ Scene_Load.prototype.onLoadSuccess = function() {
     $gameSystem.redefineProperties ();
 };
 
-
 Game_System.prototype.redefineProperty = function (property, value = null) {
     if (value) {
         Object.defineProperty (TextManager, property, {value: value, configurable: true});
@@ -636,10 +635,11 @@ Game_System.prototype.redefineProperty = function (property, value = null) {
     }
 }
 
-Game_System.prototype.redefineTextProperties = function () {
+Game_System.prototype.redefineProperties = function () {
     for (var i in this.terms) {
         Object.defineProperty (TextManager, i, {
-            value: this.terms[i]
+            value: this.terms[i],
+            configurable: true
         })
     }
 }
