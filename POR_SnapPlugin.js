@@ -14,6 +14,7 @@ Game_Interpreter.prototype.pluginCommand = function(command, args) {
 };
 
 function POR_snapBackground () {
+    delete ImageManager._imageCache._items["img/parallaxes/!MenuBG.png:0"];
     var rt = PIXI.RenderTexture.create(Graphics.boxWidth, Graphics.boxHeight);
     Graphics._renderer.render(SceneManager._scene, rt);
     var base = Graphics._renderer.extract.base64(rt);
@@ -23,4 +24,6 @@ function POR_snapBackground () {
     for (var i in bin) ui[i] = bin.charCodeAt(i);
     var fs = require ("fs");
     fs.writeFileSync ("./img/parallaxes/!MenuBG.png", ui, "binary");
+    var tex = PIXI.BaseTexture.fromImage ("img/parallaxes/!MenuBG.png");
+    tex.destroy();
 }
