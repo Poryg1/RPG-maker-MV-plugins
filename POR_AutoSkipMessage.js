@@ -151,6 +151,7 @@ Window_Message.prototype.terminateMessage = function() {
 Window_Message.prototype.calculateCloseTime = function () {
     this._closeTime += (this._charTime || PORParameters.autoSkipMessage.charTime) * this._textLength;
     this._closeTime += (this._spaceTime || PORParameters.autoSkipMessage.spaceTime) * this._spaces;
+    if (this._closeTime < PORParameters.autoSkipMessage.minTime) this._closeTime = PORParameters.autoSkipMessage._closeTime;
     this._currentTimestamp = Date.now();
 }
 
