@@ -68,6 +68,8 @@
  * so many escape tags and it would be useless to crawl through them
  * if there is no need to find out how many characters are there in
  * your message.
+ * \frct will override all settings! As such it should be AT THE
+ * BEGINNING of the text as well!
  * 
  * Note:
  * The plugin has been made to be as compatible with Yanfly's message
@@ -111,7 +113,7 @@ Window_Message.prototype.initialize = function() {
 
 POR_asm_wm_sm = Window_Message.prototype.startMessage;
 Window_Message.prototype.startMessage = function() {
-    if (PORParameters.autoSkipMessage.active) {
+    if (PORParameters.autoSkipMessage.active && !this.containsFrct()) {
         if (PORParameters.autoSkipMessage.charTime) {
             for (var i in $gameMessage._texts) {
                 var data = this.processDataEscapeCharacters($gameMessage._texts[i]);
@@ -135,6 +137,10 @@ Window_Message.prototype.startMessage = function() {
 
 Window_Message.prototype.containsChrt = function () {
     return /\\CHRT\[/i.test($gameMessage._texts[0].substring(0, 6));
+}
+
+Window_Message.prototype.containsFrct = function () {
+    return /\\Frct\[/i.test($gameMessage._texts[0].substring(0, 6));
 }
 
 POR_asm_wm_tm = Window_Message.prototype.terminateMessage;
