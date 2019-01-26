@@ -163,7 +163,10 @@ Window_Message.prototype.calculateCloseTime = function () {
 
 POR_asm_wm_u = Window_Message.prototype.update;
 Window_Message.prototype.update = function () {
-    if (this._currentTimestamp && Date.now() - this._currentTimestamp >= this._closeTime) this.terminateMessage();
+    if (this._currentTimestamp && Date.now() - this._currentTimestamp >= this._closeTime) {
+        this.pause = false;
+        this.terminateMessage();
+    }
     POR_asm_wm_u.call(this);
 }
 
