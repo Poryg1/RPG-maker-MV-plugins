@@ -5,6 +5,11 @@
  * @param Switch
  * @desc The switch that is turned on 
  * @default 1
+ * 
+ * @Help
+ * Self explanatory. Turn on a switch and no input will be accepted inside a
+ * message window. However, there's still an emergency key - Shift - in test mode
+ * in case you need to close the window.
  */
 
 var PORParameters = PORParameters || {};
