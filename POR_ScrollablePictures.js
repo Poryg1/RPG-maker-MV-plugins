@@ -8,11 +8,15 @@
  * over height, so if it's both wider and higher, only the width counts.
  * 
  * Plugin commands:
- * POR_scrollPic true/false - wherther you're allowed to scroll. (default: true)
+ * POR_scrollPic true/false - toggle wherther you're allowed to scroll. (default: true)
  * POR_scrollPicBattle true/false Same as the above, just for battle (default: false)
  * POR_changePicScrollRate integer - Scroll rate in pixels (default: 48)
  * POR_changePicScrollDuration integer - Scroll duration in frames (default: 20)
- * 
+ * example:
+ * POR_scrollPic true
+ * POR_scrollPicBattle false
+ * POR_changePicScrollRate 20
+ * POR_changePicScrollDuration 35
  * 
  * 
  * @param scrollPixels
