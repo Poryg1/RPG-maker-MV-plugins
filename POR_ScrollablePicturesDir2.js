@@ -6,6 +6,7 @@
  * with your mouse wheel. Works for pictures that have either greater width
  * or greater height than the respective screen dimension. It prioritizes width
  * over height, so if it's both wider and higher, only the width counts.
+ * Dir2 means that, compared to the original, the scroll up and down are inverted on y axis.
  * 
  * Plugin commands:
  * POR_scrollPic true/false - toggle wherther you're allowed to scroll. (default: true)
@@ -31,7 +32,7 @@
  * @default 20
  * */
 
-var PORParams = PluginManager.parameters("POR_ScrollablePictures");
+var PORParams = PluginManager.parameters("POR_ScrollablePicturesDir2");
 var POR_ScrollPic_GameInterpreter_plugComm = Game_Interpreter.prototype.pluginCommand;
 Game_Interpreter.prototype.pluginCommand = function (command, args) {
     POR_ScrollPic_GameInterpreter_plugComm.call(this, command, args);
