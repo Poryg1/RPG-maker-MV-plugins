@@ -45,12 +45,7 @@ if (Utils.isOptionValid("test")) {
     }
 };
 
-POR_DatabaseEncoder_DataManager_loadDataFile = DataManager.loadDataFile;
 DataManager.loadDataFile = function(name, src) {
-    if (Utils.isOptionValid("test")) {
-        POR_DatabaseEncoder_DataManager_loadDataFile.call(this, name, src);
-        return;
-    }
     var xhr = new XMLHttpRequest();
     var url = 'data/EncData' + src;
     xhr.open('GET', url);
