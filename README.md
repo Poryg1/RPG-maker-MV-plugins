@@ -2,6 +2,7 @@
 An unified repository for my RMMV plugins. 
 
 # Plugin list
+Database encoder - encodes your files inside /data folder using Base64 encoding to make sure they're not human readable.  
 Input blocker - blocks all input movement upon turning on a switch. Input blocker for both keyboard and mouse, InputBlockerKM allows you to choose whether one or the other or both.  
 Message input blocker - blocks all input inside a message window. In test mode you have an emergency key - Shift.  
 Fixed leader - cosmetic plugin working only with no followers. Your map "leader" will work the same on map regardless of your party leader.  
