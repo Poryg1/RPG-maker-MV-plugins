@@ -91,6 +91,7 @@ PORParameters.autoSkipMessage.active = PORParams.active == "true" ? true : false
 
 POR_asm_gi_pc = Game_Interpreter.prototype.pluginCommand;
 Game_Interpreter.prototype.pluginCommand = function(command, args) {
+    POR_asm_gi_pc.call(this, command, args);
     if (command === 'por_chartime') PORParameters.autoSkipMessage.charTime = Number(args[0]);
     if (command === 'por_spacetime') PORParameters.autoSkipMessage.spaceTime = Number(args[0]);
     if (command === 'por_mintime') PORParameters.autoSkipMessage.minTime = Number(args[0]);
