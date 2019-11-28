@@ -73,8 +73,9 @@
  * 
  * Note:
  * The plugin has been made to be as compatible with Yanfly's message
- * plugins as possible. However, her ExtMessagePack2 contains a lot of
+ * plugins as possible. However, their ExtMessagePack2 contains a lot of
  * lunatic stuff, so I cannot guarantee 100 percent compatibility.
+ * Credits to Yanfly for code from their plugins applied for the patching.
  */
 
 var Imported = Imported || {};
