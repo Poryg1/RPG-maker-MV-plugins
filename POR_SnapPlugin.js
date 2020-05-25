@@ -23,7 +23,14 @@ function POR_snapBackground () {
     var ui = new Uint8Array(ab);
     for (var i in bin) ui[i] = bin.charCodeAt(i);
     var fs = require ("fs");
-    fs.writeFileSync ("./img/parallaxes/!MenuBG.png", ui, "binary");
+    var filename;
+    var versionNums = [Number(Utils.RPGMAKER_VERSION[2], Utils.RPGMAKER_VERSION[4])];
+    if (versionNums[0] > 5 || (versionNums[0] == 5 && versionNums[1] == 2)) filename = "./"; 
+    else {
+        var path = require("path");
+        filename = path.dirname(process.mainModule.filename);
+    }
+    fs.writeFileSync (filepath + "img/parallaxes/!MenuBG.png", ui, "binary");    
     var tex = PIXI.BaseTexture.fromImage ("img/parallaxes/!MenuBG.png");
     tex.destroy();
 }
