@@ -19,9 +19,6 @@ function POR_snapBackground () {
     Graphics._renderer.render(SceneManager._scene, rt);
     var base = Graphics._renderer.extract.base64(rt);
     var bin = atob(base.split(",")[1]);
-    var ab = new ArrayBuffer(bin.length);
-    var ui = new Uint8Array(ab);
-    for (var i in bin) ui[i] = bin.charCodeAt(i);
     var fs = require ("fs");
     var filepath;
     var versionNums = [Number(Utils.RPGMAKER_VERSION[2], Utils.RPGMAKER_VERSION[4])];
