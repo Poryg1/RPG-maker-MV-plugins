@@ -30,7 +30,7 @@ function POR_snapBackground () {
         var path = require("path");
         filename = path.dirname(process.mainModule.filename);
     }
-    fs.writeFileSync (filepath + "img/parallaxes/!MenuBG.png", ui, "binary");    
+    fs.writeFileSync (filename + "img/parallaxes/!MenuBG.png", ui, "binary");    
     var tex = PIXI.BaseTexture.fromImage ("img/parallaxes/!MenuBG.png");
     tex.destroy();
 }
